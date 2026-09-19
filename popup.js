@@ -27,6 +27,49 @@ function mergeField(current, incoming) {
   return current;
 }
 
+// ============ Host Access ============
+// Microsoft cloud domains are granted at install. Other hosts (on-premises or custom
+// domains) need a one-time grant, which Chrome only allows from a user click.
+
+function isLocalHost(hostname) {
+  return hostname === 'localhost' || hostname === '127.0.0.1';
+}
+
+function originPattern(url) {
+  return `${new URL(url).origin}/*`;
+}
+
+async function hasHostAccess(url) {
+  return chrome.permissions.contains({ origins: [originPattern(url)] });
+}
+
+async function requestHostAccess(url) {
+  try {
+    return await chrome.permissions.request({ origins: [originPattern(url)] });
+  } catch (e) {
+    return false; // Origin is outside optional_host_permissions (e.g. plain http)
+  }
+}
+
+function renderHostAccessPrompt(page) {
+  const host = new URL(page.d365Url).hostname;
+  const envBar = document.getElementById('envBar');
+  envBar.className = 'env-bar error';
+  envBar.textContent = `${host} | access not granted yet`;
+  document.getElementById('results').innerHTML = `<div class="no-results">
+    <h3>Allow access to ${esc(host)}</h3>
+    <p>This D365 environment is not on a Microsoft cloud domain (for example an on-premises install).
+    Chrome needs your one-time permission before the extension can read its security data.</p>
+    <button class="compare-go" id="grantHostAccess">Allow access</button>
+  </div>`;
+  document.getElementById('grantHostAccess').addEventListener('click', async () => {
+    if (await requestHostAccess(page.d365Url)) {
+      lastDetectedMenuItem = null;
+      detectAndLoad();
+    }
+  });
+}
+
 // ============ Init ============
 
 let lastDetectedMenuItem = null;
@@ -58,6 +101,12 @@ async function detectAndLoad() {
     const pageKey = `${page.d365Url}|${page.company}|${page.menuItem}`;
     if (pageKey === lastDetectedMenuItem) return;
     lastDetectedMenuItem = pageKey;
+
+    if (!(await hasHostAccess(page.d365Url))) {
+      loading.classList.add('hidden');
+      renderHostAccessPrompt(page);
+      return;
+    }
 
     let hostname = page.d365Url;
     try { hostname = new URL(page.d365Url).hostname; } catch (e) {}
@@ -565,11 +614,17 @@ async function addEnvironment() {
   try {
     const urlObj = new URL(url.startsWith('http') ? url : 'https://' + url);
     url = urlObj.origin;
-    if (!url.includes('.dynamics.com') && !url.includes('localhost') && !url.includes('127.0.0.1')) {
+    if (urlObj.protocol !== 'https:' && !isLocalHost(urlObj.hostname)) {
       urlInput.style.borderColor = '#d13438';
       return;
     }
   } catch (e) {
+    urlInput.style.borderColor = '#d13438';
+    return;
+  }
+
+  // Request host access inside the click gesture, before any other await
+  if (!(await requestHostAccess(url))) {
     urlInput.style.borderColor = '#d13438';
     return;
   }

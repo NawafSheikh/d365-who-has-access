@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "D365 Who Has Access",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "description": "D365 F&O security analyzer: find who has access, the narrowest role to grant, and compare environments.",
   "permissions": [
     "storage",
@@ -10,12 +10,16 @@
     "sidePanel"
   ],
   "host_permissions": [
-    "https://*.operations.dynamics.com/*",
     "https://*.dynamics.com/*",
+    "https://*.microsoftdynamics.us/*",
+    "https://*.dynamics.cn/*",
     "http://localhost/*",
     "http://localhost:*/*",
     "http://127.0.0.1/*",
     "http://127.0.0.1:*/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*"
   ],
   "background": {
     "service_worker": "background.js"

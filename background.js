@@ -120,7 +120,10 @@ async function getD365TabInfo() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab || !tab.url) throw new Error('No active tab.');
   const url = new URL(tab.url);
-  if (!url.hostname.includes('.dynamics.com') && !url.hostname.includes('localhost') && !url.hostname.includes('127.0.0.1')) {
+  // Any host can run D365 (Microsoft commercial, US Government and China clouds, or
+  // on-premises custom domains), so only the scheme is checked here. Host access is
+  // enforced by Chrome permissions; the popup asks for it on non-Microsoft hosts.
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') {
     throw new Error('Not on a D365 page. Navigate to D365 first.');
   }
   return {
