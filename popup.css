@@ -1,0 +1,1592 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100vh;
+  font-family: 'Segoe UI', -apple-system, sans-serif;
+  font-size: 13px;
+  color: #323130;
+  background: #faf9f8;
+  overflow-y: auto;
+}
+
+.env-bar {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #0078d4;
+  color: #fff;
+}
+.env-bar.loading { background: #797775; }
+.env-bar.error { background: #d13438; }
+
+.main { padding: 14px; }
+
+/* Menu item header */
+.mi-header {
+  margin-bottom: 14px;
+}
+.mi-header h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.mi-header .mi-name {
+  font-size: 11px;
+  color: #605e5c;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+/* Summary strip */
+.summary {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.summary-item {
+  flex: 1;
+  text-align: center;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+}
+.summary-item .num {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0078d4;
+}
+.summary-item .label {
+  font-size: 10px;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Access type filter buttons */
+.access-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.access-btn {
+  padding: 5px 12px;
+  border: 1px solid #c8c6c4;
+  border-radius: 16px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.access-btn:hover { border-color: #0078d4; }
+.access-btn.active {
+  background: #0078d4;
+  color: #fff;
+  border-color: #0078d4;
+}
+.access-btn.btn-read { color: #0078d4; border-color: #0078d4; }
+.access-btn.btn-read.active { background: #0078d4; color: #fff; }
+.access-btn.btn-update { color: #107c10; border-color: #107c10; }
+.access-btn.btn-update.active { background: #107c10; color: #fff; }
+.access-btn.btn-create { color: #797600; border-color: #797600; }
+.access-btn.btn-create.active { background: #797600; color: #fff; }
+.access-btn.btn-delete { color: #d13438; border-color: #d13438; }
+.access-btn.btn-delete.active { background: #d13438; color: #fff; }
+.access-btn.btn-invoke { color: #8764b8; border-color: #8764b8; }
+.access-btn.btn-invoke.active { background: #8764b8; color: #fff; }
+
+/* Access badges inside role groups */
+.badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-read { background: #deecf9; color: #0078d4; }
+.badge-update { background: #dff6dd; color: #107c10; }
+.badge-create { background: #fff4ce; color: #797600; }
+.badge-delete { background: #fde7e9; color: #d13438; }
+.badge-invoke { background: #e8d4ef; color: #8764b8; }
+.badge-entry { background: #f3f2f1; color: #323130; border: 1px solid #c8c6c4; }
+.badge-deny { background: #fde7e9; color: #d13438; border: 1px dashed #d13438; }
+
+/* Role groups */
+.role-group {
+  background: #fff;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.role-group-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #edebe9;
+  gap: 8px;
+}
+
+.role-group-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.role-group-names {
+  font-size: 12px;
+  font-weight: 600;
+  color: #323130;
+  display: block;
+  word-wrap: break-word;
+}
+
+.role-group-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 5px;
+}
+
+.role-group-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  background: #0078d4;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.role-group-users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 12px;
+}
+
+.grouped-user {
+  font-size: 12px;
+  font-weight: 500;
+  color: #323130;
+  background: #f3f2f1;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.grouped-user:hover {
+  background: #e1dfdd;
+}
+
+.user-access {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.access-maintain { background: #dff6dd; color: #107c10; }
+.access-view { background: #deecf9; color: #0078d4; }
+.access-delete { background: #fde7e9; color: #d13438; }
+.access-full { background: #e8d4ef; color: #8764b8; }
+.access-create { background: #fff4ce; color: #797600; }
+.access-unknown { background: #f3f2f1; color: #605e5c; }
+
+/* Expandable details */
+.details-toggle {
+  font-size: 11px;
+  color: #0078d4;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 8px 0 4px;
+  font-family: inherit;
+}
+.details-toggle:hover { text-decoration: underline; }
+
+.details-section {
+  display: none;
+  margin-top: 8px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.details-section.open { display: block; }
+
+.priv-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #323130;
+  padding: 6px 0 3px;
+  border-bottom: 1px solid #edebe9;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.priv-group-title:first-child { margin-top: 0; }
+
+.priv-row {
+  display: flex;
+  padding: 3px 0;
+  border-bottom: 1px solid #f3f2f1;
+}
+.priv-row:last-child { border-bottom: none; }
+.priv-name { flex: 1; }
+.priv-role { color: #605e5c; }
+
+/* Error */
+.error-box {
+  padding: 12px;
+  background: #fde7e9;
+  border-left: 3px solid #d13438;
+  color: #a4262c;
+  font-size: 12px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* No results */
+.no-results {
+  text-align: center;
+  padding: 20px;
+  color: #605e5c;
+}
+.no-results h3 { margin-bottom: 6px; color: #323130; }
+
+/* Loading */
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.loading-overlay.hidden { display: none; }
+.spinner {
+  width: 24px; height: 24px;
+  border: 3px solid #edebe9;
+  border-top-color: #0078d4;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-bottom: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loadingText { font-size: 13px; color: #605e5c; }
+
+/* Filter */
+.filter-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #c8c6c4;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 10px;
+}
+.filter-input:focus { border-color: #0078d4; }
+
+/* Drill-down */
+.role-group-header {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.role-group-header:hover {
+  background: #f0f0f0;
+}
+.role-group-header.expanded {
+  background: #eef6fc;
+  border-bottom-color: #c7e0f4;
+}
+.role-group-header::after {
+  content: '\u25B6';
+  font-size: 10px;
+  color: #a19f9d;
+  align-self: center;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.role-group-header.expanded::after {
+  transform: rotate(90deg);
+  color: #0078d4;
+}
+
+.drill-down {
+  display: none;
+  border-top: 1px solid #edebe9;
+  background: #faf9f8;
+  padding: 0;
+}
+.drill-down.open {
+  display: block;
+  padding: 10px 12px;
+}
+
+.drill-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #605e5c;
+  padding: 4px 0;
+}
+.spinner-sm {
+  width: 14px; height: 14px;
+  border: 2px solid #edebe9;
+  border-top-color: #0078d4;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.drill-role {
+  margin-bottom: 10px;
+}
+.drill-role:last-child { margin-bottom: 0; }
+
+.drill-role-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #323130;
+}
+.drill-role-id {
+  font-size: 10px;
+  color: #a19f9d;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  margin-bottom: 6px;
+}
+
+.drill-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 5px 0 3px;
+  border-bottom: 1px solid #edebe9;
+  margin-top: 4px;
+}
+
+.drill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 3px 0;
+  border-bottom: 1px solid #f3f2f1;
+  gap: 8px;
+}
+.drill-item:last-child { border-bottom: none; }
+.drill-item-name {
+  font-size: 11px;
+  color: #323130;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+.drill-item-id {
+  font-size: 10px;
+  color: #a19f9d;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.drill-total {
+  font-size: 10px;
+  color: #a19f9d;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.drill-empty {
+  font-size: 11px;
+  color: #a19f9d;
+  font-style: italic;
+  padding: 4px 0;
+}
+
+.drill-error {
+  font-size: 11px;
+  color: #d13438;
+  padding: 4px 0;
+}
+
+.drill-sep {
+  border: none;
+  border-top: 1px dashed #c8c6c4;
+  margin: 10px 0;
+}
+
+/* Permission card - raw field display */
+.perm-card {
+  background: #fff;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin: 4px 0;
+}
+.perm-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 2px 0;
+  border-bottom: 1px solid #f8f8f8;
+  gap: 8px;
+}
+.perm-field:last-child { border-bottom: none; }
+.perm-field-key {
+  font-size: 10px;
+  font-weight: 600;
+  color: #605e5c;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  flex-shrink: 0;
+}
+.perm-field-val {
+  font-size: 11px;
+  color: #323130;
+  text-align: right;
+  word-break: break-word;
+}
+
+/* Role scope summary */
+.scope-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px solid #f3f2f1;
+}
+.scope-row:last-child { border-bottom: none; }
+.scope-type {
+  font-size: 11px;
+  color: #323130;
+}
+.scope-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0078d4;
+}
+
+/* Selected user chip for compare */
+.grouped-user.selected {
+  background: #0078d4;
+  color: #fff;
+}
+
+/* Compare panel */
+.compare-trigger {
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.compare-trigger:hover {
+  border-color: #0078d4;
+  background: #eef6fc;
+}
+
+.compare-panel {
+  margin-bottom: 14px;
+}
+.compare-panel.hidden { display: none; }
+
+.compare-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.compare-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #323130;
+}
+.compare-close {
+  font-size: 11px;
+  color: #0078d4;
+  background: none;
+  border: 1px solid #0078d4;
+  border-radius: 3px;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.compare-close:hover { background: #eef6fc; }
+
+.compare-input-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.compare-input-row .filter-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+.compare-go {
+  padding: 6px 14px;
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.compare-go:hover { background: #106ebe; }
+
+/* Compare results table */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+.compare-table th {
+  font-size: 10px;
+  font-weight: 700;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 5px 6px;
+  border-bottom: 2px solid #edebe9;
+  text-align: center;
+}
+.compare-table th:first-child { text-align: left; }
+.compare-table td {
+  padding: 5px 6px;
+  border-bottom: 1px solid #f3f2f1;
+}
+.compare-user {
+  font-weight: 600;
+  color: #323130;
+}
+.compare-cell {
+  text-align: center;
+  font-weight: 700;
+  font-size: 11px;
+}
+.cell-yes { color: #107c10; background: #f0fff0; }
+.cell-no { color: #c8c6c4; }
+.cell-deny { color: #d13438; background: #fef6f6; font-weight: 700; }
+.no-access-row { background: #fef6f6; }
+
+.compare-role-name {
+  font-size: 11px;
+  color: #323130;
+  word-break: break-word;
+}
+.compare-roles-count {
+  font-size: 10px;
+  color: #a19f9d;
+  text-align: right;
+}
+
+.compare-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #323130;
+  padding: 8px 0 4px;
+  border-bottom: 1px solid #edebe9;
+  margin-bottom: 4px;
+}
+
+.compare-unique {
+  font-size: 11px;
+  color: #605e5c;
+  padding: 4px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.compare-unique-user {
+  font-weight: 700;
+  color: #323130;
+}
+
+/* Export trigger */
+.export-trigger {
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.export-trigger:hover {
+  border-color: #107c10;
+  background: #f0fff0;
+}
+
+/* Security insights bar */
+.insights-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.insight {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.insight-blue { background: #deecf9; color: #0078d4; }
+.insight-purple { background: #e8d4ef; color: #8764b8; }
+.insight-red { background: #fde7e9; color: #d13438; }
+
+/* Impact analysis */
+.impact-section {
+  margin-bottom: 12px;
+}
+.impact-block {
+  margin: 6px 0;
+}
+.impact-role-header {
+  font-size: 11px;
+  color: #323130;
+  margin-bottom: 4px;
+}
+.impact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  margin: 3px 0;
+  font-size: 11px;
+}
+.impact-danger {
+  background: #fde7e9;
+  border-left: 3px solid #d13438;
+}
+.impact-warn {
+  background: #fff4ce;
+  border-left: 3px solid #797600;
+}
+.impact-safe {
+  background: #dff6dd;
+  border-left: 3px solid #107c10;
+}
+.impact-icon {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.impact-danger .impact-icon { color: #d13438; }
+.impact-warn .impact-icon { color: #797600; }
+.impact-safe .impact-icon { color: #107c10; }
+.impact-users {
+  flex: 1;
+  color: #323130;
+  word-break: break-word;
+}
+.impact-details {
+  flex: 1;
+  color: #323130;
+}
+.impact-count {
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.impact-danger .impact-count { color: #d13438; }
+.impact-warn .impact-count { color: #797600; }
+.impact-safe .impact-count { color: #107c10; }
+
+/* Clickable duties */
+.duty-clickable {
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 3px;
+  padding: 3px 4px !important;
+}
+.duty-clickable:hover {
+  background: #eef6fc;
+}
+.duty-clickable.duty-expanded {
+  background: #deecf9;
+}
+
+/* Duty chain trace */
+.duty-chain {
+  margin: 0 0 4px 12px;
+  padding: 6px 8px;
+  border-left: 2px solid #0078d4;
+  background: #fff;
+  font-size: 11px;
+}
+.chain-source {
+  font-size: 9px;
+  color: #a19f9d;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.chain-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin: 6px 0 3px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #edebe9;
+}
+.chain-item {
+  padding: 3px 0;
+  border-bottom: 1px solid #f3f2f1;
+  line-height: 1.5;
+}
+.chain-item:last-child { border-bottom: none; }
+.chain-field {
+  display: inline;
+  font-size: 10px;
+  margin-right: 8px;
+}
+.chain-key {
+  font-weight: 600;
+  color: #605e5c;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+.chain-note {
+  font-size: 10px;
+  color: #797600;
+  background: #fff4ce;
+  padding: 6px 8px;
+  border-radius: 3px;
+  margin-top: 6px;
+}
+
+/* Discover */
+.discover-bar {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed #c8c6c4;
+}
+.discover-btn {
+  font-size: 11px;
+  color: #0078d4;
+  background: none;
+  border: 1px dashed #0078d4;
+  border-radius: 3px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.discover-btn:hover { background: #eef6fc; }
+
+.discover-entity {
+  padding: 4px 0;
+  border-bottom: 1px solid #f3f2f1;
+}
+.discover-entity-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #107c10;
+}
+.discover-entity-fields {
+  font-size: 10px;
+  color: #605e5c;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  word-break: break-word;
+}
+.discover-not-found {
+  font-size: 10px;
+  color: #a19f9d;
+  word-break: break-word;
+}
+
+/* Cross-env compare trigger */
+.crossenv-trigger {
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.crossenv-trigger:hover {
+  border-color: #8764b8;
+  background: #f3eef8;
+}
+
+/* Cross-env panel */
+.cross-env-panel {
+  margin-bottom: 14px;
+}
+.cross-env-panel.hidden { display: none; }
+
+.crossenv-form {
+  margin-bottom: 10px;
+}
+.crossenv-row {
+  margin-bottom: 8px;
+}
+.crossenv-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}
+.crossenv-select-row {
+  display: flex;
+  gap: 6px;
+}
+.crossenv-select {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #c8c6c4;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+}
+.crossenv-select:focus { border-color: #0078d4; }
+
+.crossenv-manage-btn {
+  padding: 6px 10px;
+  font-size: 11px;
+  font-family: inherit;
+  color: #0078d4;
+  background: none;
+  border: 1px solid #0078d4;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.crossenv-manage-btn:hover { background: #eef6fc; }
+
+.crossenv-go {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Environment settings */
+.crossenv-settings {
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+.env-settings-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #323130;
+  margin-bottom: 8px;
+}
+.env-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #f3f2f1;
+  gap: 8px;
+}
+.env-list-item:last-of-type { border-bottom: none; }
+.env-list-item.env-current { opacity: 0.5; }
+.env-list-info {
+  flex: 1;
+  min-width: 0;
+}
+.env-list-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #323130;
+  display: block;
+}
+.env-list-url {
+  font-size: 10px;
+  color: #a19f9d;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  display: block;
+  word-break: break-all;
+}
+.env-delete-btn {
+  font-size: 11px;
+  color: #d13438;
+  background: none;
+  border: 1px solid #d13438;
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+.env-delete-btn:hover { background: #fde7e9; }
+
+.env-add-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #edebe9;
+}
+.env-add-input {
+  padding: 5px 8px;
+  border: 1px solid #c8c6c4;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  min-width: 0;
+}
+.env-add-input:focus { border-color: #0078d4; }
+.env-add-input:first-child { width: 80px; flex-shrink: 0; }
+.env-add-url { flex: 1; }
+.env-add-row .compare-go { white-space: nowrap; padding: 5px 10px; }
+
+.crossenv-save-current {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 5px;
+  font-size: 11px;
+  font-family: inherit;
+  color: #0078d4;
+  background: none;
+  border: 1px dashed #0078d4;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+}
+.crossenv-save-current:hover { background: #eef6fc; }
+
+/* Cross-env results */
+.crossenv-result-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #323130;
+  padding: 8px 0 4px;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+.diff-indicator {
+  font-size: 9px;
+  font-weight: 800;
+  color: #d13438;
+  background: #fde7e9;
+  padding: 1px 6px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+}
+
+.crossenv-role-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px 0 8px;
+}
+
+.badge-only-a { background: #fde7e9; color: #d13438; }
+.badge-only-b { background: #deecf9; color: #0078d4; }
+.badge-common { background: #f3f2f1; color: #605e5c; }
+
+.crossenv-common-toggle {
+  cursor: pointer;
+}
+.crossenv-common-toggle:hover {
+  color: #0078d4;
+}
+
+/* Deep compare */
+.deep-compare-bar {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed #c8c6c4;
+}
+.deep-compare-btn {
+  background: #8764b8;
+}
+.deep-compare-btn:hover { background: #6b4fa0; }
+.deep-compare-btn:disabled { opacity: 0.6; cursor: wait; }
+
+.deep-summary {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+.deep-summary-ok {
+  background: #dff6dd;
+  color: #107c10;
+}
+.deep-summary-warn {
+  background: #fff4ce;
+  color: #797600;
+}
+
+.deep-role {
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.deep-role-diff {
+  border-left: 3px solid #d13438;
+}
+.deep-role-ok {
+  border-left: 3px solid #107c10;
+}
+
+.deep-role-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #edebe9;
+}
+.deep-role-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #323130;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+.deep-role-id {
+  font-size: 10px;
+  color: #a19f9d;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  flex-shrink: 0;
+}
+.same-indicator {
+  font-size: 9px;
+  font-weight: 800;
+  color: #107c10;
+  background: #dff6dd;
+  padding: 1px 6px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.deep-section {
+  padding: 6px 10px;
+  border-bottom: 1px solid #f3f2f1;
+  font-size: 11px;
+}
+.deep-section:last-child { border-bottom: none; }
+
+.deep-section-label {
+  font-weight: 700;
+  color: #605e5c;
+}
+.deep-counts {
+  color: #a19f9d;
+  font-size: 10px;
+}
+
+.deep-diff-list {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.deep-diff-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #605e5c;
+  flex-shrink: 0;
+}
+
+/* Narrowest Role Search */
+.narrow-search {
+  margin-bottom: 10px;
+}
+.narrow-search-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #323130;
+  margin-bottom: 2px;
+}
+.narrow-search-desc {
+  font-size: 11px;
+  color: #605e5c;
+  margin-bottom: 8px;
+}
+.narrow-search-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.narrow-search-row .filter-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+.narrow-access-select {
+  padding: 6px 6px;
+  border: 1px solid #c8c6c4;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+  flex-shrink: 0;
+}
+.narrow-access-select:focus { border-color: #0078d4; }
+
+.narrow-user-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  align-items: center;
+}
+.narrow-user-row .filter-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+.narrow-user-btn {
+  background: #8764b8;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.narrow-user-btn:hover { background: #6b4fa0; }
+
+/* User recommendation card */
+.narrow-user-card {
+  background: #fff;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+.narrow-user-card.user-has-access {
+  border-left: 4px solid #107c10;
+}
+.narrow-user-card.user-needs-role {
+  border-left: 4px solid #8764b8;
+}
+.narrow-user-card.user-no-access {
+  border-left: 4px solid #d13438;
+}
+.narrow-user-header {
+  padding: 10px 12px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #edebe9;
+}
+.narrow-user-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #323130;
+}
+.narrow-user-subtitle {
+  font-size: 11px;
+  color: #605e5c;
+  margin-top: 2px;
+}
+.narrow-user-body {
+  padding: 8px 12px;
+}
+.narrow-user-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.status-has-access { background: #dff6dd; color: #107c10; }
+.status-needs-role { background: #e8d4ef; color: #8764b8; }
+.status-no-roles { background: #fde7e9; color: #d13438; }
+
+/* User search */
+.user-search-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  align-items: center;
+}
+.user-search-row .filter-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+.user-search-btn {
+  background: #107c10;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.user-search-btn:hover { background: #0b6a0b; }
+
+.user-search-results-box {
+  margin-top: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  background: #fff;
+}
+.user-search-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  border-bottom: 1px solid #f3f2f1;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.user-search-item:last-child { border-bottom: none; }
+.user-search-item:hover { background: #eef6fc; }
+.user-search-item.user-search-selected { background: #dff6dd; }
+.user-search-item.user-search-disabled { opacity: 0.6; }
+.user-search-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #323130;
+}
+.user-search-id {
+  font-size: 10px;
+  color: #605e5c;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+.user-search-term-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: #323130;
+  padding: 6px 10px 4px;
+  background: #f3f2f1;
+  border-bottom: 1px solid #edebe9;
+}
+
+.narrow-divider {
+  border: none;
+  border-top: 1px solid #edebe9;
+  margin: 10px 0;
+}
+
+/* Narrowest results */
+.narrow-result-card {
+  background: #fff;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+.narrow-best {
+  border-left: 4px solid #107c10;
+}
+.narrow-other {
+  border-left: 4px solid #c8c6c4;
+  opacity: 0.85;
+}
+.narrow-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #edebe9;
+  gap: 8px;
+}
+.narrow-card-info {
+  flex: 1;
+  min-width: 0;
+}
+.narrow-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #323130;
+  word-break: break-word;
+}
+.narrow-card-id {
+  font-size: 10px;
+  color: #a19f9d;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+.narrow-card-stats {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+.narrow-stat {
+  text-align: center;
+  min-width: 48px;
+}
+.narrow-stat-num {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0078d4;
+}
+.narrow-stat-label {
+  font-size: 9px;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.narrow-card-body {
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.narrow-best-tag {
+  font-size: 10px;
+  font-weight: 800;
+  color: #107c10;
+  background: #dff6dd;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+.narrow-rank {
+  font-size: 10px;
+  font-weight: 600;
+  color: #605e5c;
+  background: #f3f2f1;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.narrow-duties-list {
+  font-size: 11px;
+  color: #605e5c;
+  padding: 4px 12px 8px;
+}
+.narrow-duties-list span {
+  font-family: 'Cascadia Code', Consolas, monospace;
+  font-size: 10px;
+}
+
+/* No results recommendation */
+.narrow-no-result {
+  margin-top: 10px;
+  padding: 12px;
+  background: #fff4ce;
+  border-left: 3px solid #797600;
+  border-radius: 0 4px 4px 0;
+  font-size: 12px;
+  color: #323130;
+}
+.narrow-no-result strong {
+  color: #797600;
+}
+.narrow-similar {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.narrow-similar-item {
+  font-size: 10px;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  background: #fff;
+  border: 1px solid #edebe9;
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.narrow-similar-item:hover {
+  background: #eef6fc;
+  border-color: #0078d4;
+}
+
+/* Privilege/Duty chain in narrowest results */
+.narrow-chain {
+  margin-top: 10px;
+}
+.narrow-chain-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 6px 0 4px;
+  border-bottom: 1px solid #edebe9;
+  cursor: pointer;
+}
+.narrow-chain-title:hover { color: #0078d4; }
+.narrow-chain-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid #f3f2f1;
+  font-size: 11px;
+}
+.narrow-chain-item:last-child { border-bottom: none; }
+.narrow-chain-name {
+  font-weight: 600;
+  color: #323130;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+.narrow-chain-id {
+  font-size: 10px;
+  color: #a19f9d;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  flex-shrink: 0;
+}
+.narrow-chain-sub {
+  font-size: 10px;
+  color: #605e5c;
+  margin-left: 12px;
+  padding: 2px 0;
+}
+.narrow-chain-arrow {
+  color: #c8c6c4;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.hidden { display: none !important; }
+
+/* Role inspector */
+.role-inspect-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.role-inspect-btn { background: #8764b8; color: #fff; }
+.overview-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.overview-btn {
+  background: #2E75B6;
+  color: #fff;
+  flex: 1;
+  font-size: 11px;
+}
+.overview-btn:hover { background: #1F4E79; }
+.license-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 8px;
+  margin-left: 2px;
+  vertical-align: middle;
+  line-height: 1.2;
+}
+.role-inspect-card {
+  background: #fff;
+  border: 1px solid #e1dfdd;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 8px;
+}
+.role-inspect-header { margin-bottom: 8px; }
+.role-inspect-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #323130;
+}
+.role-inspect-id {
+  font-size: 11px;
+  color: #8a8886;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+.role-inspect-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 0;
+  border-top: 1px solid #f3f2f1;
+  border-bottom: 1px solid #f3f2f1;
+  margin-bottom: 8px;
+}
+.role-stat {
+  font-size: 11px;
+  color: #605e5c;
+  background: #f3f2f1;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+.role-inspect-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #edebe9;
+  border-radius: 3px;
+}
+.menu-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  border-bottom: 1px solid #f3f2f1;
+  font-size: 11px;
+  gap: 8px;
+}
+.menu-item-row:last-child { border-bottom: none; }
+.menu-item-info { flex: 1; min-width: 0; }
+.menu-item-info .drill-item-name {
+  display: block;
+  font-weight: 600;
+  color: #323130;
+  word-break: break-word;
+}
+.menu-item-info .drill-item-id {
+  display: block;
+  font-size: 10px;
+  color: #a19f9d;
+}
+.menu-item-badges { flex-shrink: 0; display: flex; gap: 3px; flex-wrap: wrap; }
+
+/* Role compare */
+.role-compare-roles {
+  margin-bottom: 6px;
+  padding: 6px;
+  background: #f3f2f1;
+  border-radius: 3px;
+}
+.role-compare-tag {
+  font-size: 11px;
+  color: #323130;
+  padding: 2px 0;
+}
+.conflict-row {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f3f2f1;
+  font-size: 11px;
+}
+.conflict-row:last-child { border-bottom: none; }
+.conflict-roles {
+  margin-top: 4px;
+  margin-left: 8px;
+}
+.conflict-role-line {
+  padding: 2px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.conflict-role-name {
+  font-weight: 600;
+  color: #0078d4;
+  min-width: 120px;
+}
+.trace-priv-btn {
+  font-size: 10px;
+  padding: 2px 6px;
+  background: #f3f2f1;
+  border: 1px solid #c8c6c4;
+  border-radius: 2px;
+  cursor: pointer;
+  color: #323130;
+  margin-left: 4px;
+}
+.trace-priv-btn:hover { background: #e1dfdd; }
+.trace-priv-result {
+  margin: 4px 0 4px 16px;
+  padding: 6px 8px;
+  background: #faf9f8;
+  border-left: 2px solid #8764b8;
+  border-radius: 2px;
+}
+.trace-priv-item {
+  padding: 3px 0;
+  font-size: 11px;
+}

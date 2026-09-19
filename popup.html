@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>D365 Who Has Access</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="envBar" class="env-bar loading">Connecting to D365...</div>
+
+  <div class="main">
+    <div id="narrowSearch" class="narrow-search">
+      <div class="narrow-search-title">Find Narrowest Role</div>
+      <div class="narrow-search-desc">Paste menu item names (comma-separated) and optionally user IDs to find the narrowest access</div>
+      <div class="narrow-search-row">
+        <input type="text" class="filter-input" id="narrowInput" placeholder="Menu items, e.g. LedgerJournalTable, CustTableListPage">
+        <select class="narrow-access-select" id="narrowAccess">
+          <option value="">Any access</option>
+          <option value="read">Read</option>
+          <option value="update">Update</option>
+          <option value="create">Create</option>
+          <option value="delete">Delete</option>
+          <option value="invoke">Invoke</option>
+        </select>
+        <button class="compare-go" id="narrowGo">Find</button>
+      </div>
+      <div class="narrow-user-row">
+        <input type="text" class="filter-input" id="narrowUserId" placeholder="User IDs (optional), e.g. jsmith, adavis">
+        <button class="compare-go narrow-user-btn" id="narrowUserGo">What role to assign?</button>
+      </div>
+      <div class="user-search-row">
+        <input type="text" class="filter-input" id="userSearchInput" placeholder="Search users by name or ID, e.g. John, Smith">
+        <button class="compare-go user-search-btn" id="userSearchGo">Search</button>
+      </div>
+      <div class="role-inspect-row">
+        <input type="text" class="filter-input" id="roleInspectInput" placeholder="Role(s): 1 to inspect, 2+ comma-separated to find conflicts">
+        <button class="compare-go role-inspect-btn" id="roleInspectGo">Inspect / Compare</button>
+      </div>
+      <div class="overview-row">
+        <button class="compare-go overview-btn" id="licenseOverviewGo">Security & License Overview</button>
+        <button class="compare-go overview-btn" id="userInventoryGo">User × Permission Inventory</button>
+      </div>
+      <div id="userSearchResults"></div>
+      <div id="narrowResults"></div>
+      <div id="narrowUserResults"></div>
+      <div id="roleInspectResults"></div>
+      <div id="licenseOverviewResults"></div>
+      <div id="userInventoryResults"></div>
+    </div>
+    <hr class="narrow-divider">
+    <div id="results"></div>
+  </div>
+
+  <div id="loading" class="loading-overlay">
+    <div class="spinner"></div>
+    <span id="loadingText">Analyzing access...</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
