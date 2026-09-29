@@ -31,7 +31,7 @@ Uses your existing D365 sign-in and calls your own environment's OData endpoint.
 2. Open `chrome://extensions`, turn on Developer mode, click **Load unpacked** and pick the repo folder.
 3. Open a D365 F&O page and click the extension icon.
 
-`build.ps1` produces the store zip in `dist/` (it strips the localhost dev hosts). `demo/` runs the real popup and background scripts against a fictional Contoso dataset with a mocked OData endpoint, which is how the screenshots are made.
+`build.ps1` produces the store zip in `dist/` (it strips the localhost dev hosts).
 
 ## Known issue
 
